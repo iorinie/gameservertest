@@ -3,15 +3,9 @@
 
 package gameServerTest
 
-import (
-	context "context"
-	fmt "fmt"
-	proto "github.com/golang/protobuf/proto"
-	grpc "google.golang.org/grpc"
-	codes "google.golang.org/grpc/codes"
-	status "google.golang.org/grpc/status"
-	math "math"
-)
+import proto "github.com/golang/protobuf/proto"
+import fmt "fmt"
+import math "math"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -22,183 +16,92 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
-type ConnectRequest struct {
-	Action               string   `protobuf:"bytes,1,opt,name=action,proto3" json:"action,omitempty"`
+type LoginReq struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *ConnectRequest) Reset()         { *m = ConnectRequest{} }
-func (m *ConnectRequest) String() string { return proto.CompactTextString(m) }
-func (*ConnectRequest) ProtoMessage()    {}
-func (*ConnectRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_9ebb100512a34702, []int{0}
+func (m *LoginReq) Reset()         { *m = LoginReq{} }
+func (m *LoginReq) String() string { return proto.CompactTextString(m) }
+func (*LoginReq) ProtoMessage()    {}
+func (*LoginReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_gameservertest_ea105c637247ef81, []int{0}
+}
+func (m *LoginReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_LoginReq.Unmarshal(m, b)
+}
+func (m *LoginReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_LoginReq.Marshal(b, m, deterministic)
+}
+func (dst *LoginReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_LoginReq.Merge(dst, src)
+}
+func (m *LoginReq) XXX_Size() int {
+	return xxx_messageInfo_LoginReq.Size(m)
+}
+func (m *LoginReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_LoginReq.DiscardUnknown(m)
 }
 
-func (m *ConnectRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ConnectRequest.Unmarshal(m, b)
-}
-func (m *ConnectRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ConnectRequest.Marshal(b, m, deterministic)
-}
-func (m *ConnectRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ConnectRequest.Merge(m, src)
-}
-func (m *ConnectRequest) XXX_Size() int {
-	return xxx_messageInfo_ConnectRequest.Size(m)
-}
-func (m *ConnectRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_ConnectRequest.DiscardUnknown(m)
-}
+var xxx_messageInfo_LoginReq proto.InternalMessageInfo
 
-var xxx_messageInfo_ConnectRequest proto.InternalMessageInfo
-
-func (m *ConnectRequest) GetAction() string {
-	if m != nil {
-		return m.Action
-	}
-	return ""
-}
-
-type ConnectReply struct {
-	Who                  string   `protobuf:"bytes,1,opt,name=who,proto3" json:"who,omitempty"`
+type LoginResp struct {
+	ErrCode              int32    `protobuf:"varint,1,opt,name=errCode" json:"errCode,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *ConnectReply) Reset()         { *m = ConnectReply{} }
-func (m *ConnectReply) String() string { return proto.CompactTextString(m) }
-func (*ConnectReply) ProtoMessage()    {}
-func (*ConnectReply) Descriptor() ([]byte, []int) {
-	return fileDescriptor_9ebb100512a34702, []int{1}
+func (m *LoginResp) Reset()         { *m = LoginResp{} }
+func (m *LoginResp) String() string { return proto.CompactTextString(m) }
+func (*LoginResp) ProtoMessage()    {}
+func (*LoginResp) Descriptor() ([]byte, []int) {
+	return fileDescriptor_gameservertest_ea105c637247ef81, []int{1}
+}
+func (m *LoginResp) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_LoginResp.Unmarshal(m, b)
+}
+func (m *LoginResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_LoginResp.Marshal(b, m, deterministic)
+}
+func (dst *LoginResp) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_LoginResp.Merge(dst, src)
+}
+func (m *LoginResp) XXX_Size() int {
+	return xxx_messageInfo_LoginResp.Size(m)
+}
+func (m *LoginResp) XXX_DiscardUnknown() {
+	xxx_messageInfo_LoginResp.DiscardUnknown(m)
 }
 
-func (m *ConnectReply) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ConnectReply.Unmarshal(m, b)
-}
-func (m *ConnectReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ConnectReply.Marshal(b, m, deterministic)
-}
-func (m *ConnectReply) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ConnectReply.Merge(m, src)
-}
-func (m *ConnectReply) XXX_Size() int {
-	return xxx_messageInfo_ConnectReply.Size(m)
-}
-func (m *ConnectReply) XXX_DiscardUnknown() {
-	xxx_messageInfo_ConnectReply.DiscardUnknown(m)
-}
+var xxx_messageInfo_LoginResp proto.InternalMessageInfo
 
-var xxx_messageInfo_ConnectReply proto.InternalMessageInfo
-
-func (m *ConnectReply) GetWho() string {
+func (m *LoginResp) GetErrCode() int32 {
 	if m != nil {
-		return m.Who
+		return m.ErrCode
 	}
-	return ""
+	return 0
 }
 
 func init() {
-	proto.RegisterType((*ConnectRequest)(nil), "gameServerTest.ConnectRequest")
-	proto.RegisterType((*ConnectReply)(nil), "gameServerTest.ConnectReply")
+	proto.RegisterType((*LoginReq)(nil), "gameServerTest.LoginReq")
+	proto.RegisterType((*LoginResp)(nil), "gameServerTest.LoginResp")
 }
 
-func init() { proto.RegisterFile("gameservertest.proto", fileDescriptor_9ebb100512a34702) }
+func init() {
+	proto.RegisterFile("gameservertest.proto", fileDescriptor_gameservertest_ea105c637247ef81)
+}
 
-var fileDescriptor_9ebb100512a34702 = []byte{
-	// 152 bytes of a gzipped FileDescriptorProto
+var fileDescriptor_gameservertest_ea105c637247ef81 = []byte{
+	// 101 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x49, 0x4f, 0xcc, 0x4d,
 	0x2d, 0x4e, 0x2d, 0x2a, 0x4b, 0x2d, 0x2a, 0x49, 0x2d, 0x2e, 0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9,
-	0x17, 0xe2, 0x03, 0x89, 0x06, 0x83, 0x45, 0x43, 0x52, 0x8b, 0x4b, 0x94, 0x34, 0xb8, 0xf8, 0x9c,
-	0xf3, 0xf3, 0xf2, 0x52, 0x93, 0x4b, 0x82, 0x52, 0x0b, 0x4b, 0x53, 0x8b, 0x4b, 0x84, 0xc4, 0xb8,
-	0xd8, 0x12, 0x93, 0x4b, 0x32, 0xf3, 0xf3, 0x24, 0x18, 0x15, 0x18, 0x35, 0x38, 0x83, 0xa0, 0x3c,
-	0x25, 0x05, 0x2e, 0x1e, 0xb8, 0xca, 0x82, 0x9c, 0x4a, 0x21, 0x01, 0x2e, 0xe6, 0xf2, 0x8c, 0x7c,
-	0xa8, 0x22, 0x10, 0xd3, 0x28, 0x94, 0x8b, 0x05, 0x64, 0xa6, 0x90, 0x2f, 0x17, 0xb7, 0x57, 0x69,
-	0x71, 0x09, 0x54, 0xb5, 0x90, 0x9c, 0x1e, 0xaa, 0x9d, 0x7a, 0xa8, 0x16, 0x4a, 0xc9, 0xe0, 0x94,
-	0x2f, 0xc8, 0xa9, 0x54, 0x62, 0x48, 0x62, 0x03, 0xbb, 0xdc, 0x18, 0x10, 0x00, 0x00, 0xff, 0xff,
-	0xe8, 0x54, 0x47, 0xae, 0xd1, 0x00, 0x00, 0x00,
-}
-
-// Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ grpc.ClientConn
-
-// This is a compile-time assertion to ensure that this generated file
-// is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion4
-
-// TestClient is the client API for Test service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type TestClient interface {
-	JustConnect(ctx context.Context, in *ConnectRequest, opts ...grpc.CallOption) (*ConnectReply, error)
-}
-
-type testClient struct {
-	cc *grpc.ClientConn
-}
-
-func NewTestClient(cc *grpc.ClientConn) TestClient {
-	return &testClient{cc}
-}
-
-func (c *testClient) JustConnect(ctx context.Context, in *ConnectRequest, opts ...grpc.CallOption) (*ConnectReply, error) {
-	out := new(ConnectReply)
-	err := c.cc.Invoke(ctx, "/gameServerTest.Test/JustConnect", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// TestServer is the server API for Test service.
-type TestServer interface {
-	JustConnect(context.Context, *ConnectRequest) (*ConnectReply, error)
-}
-
-// UnimplementedTestServer can be embedded to have forward compatible implementations.
-type UnimplementedTestServer struct {
-}
-
-func (*UnimplementedTestServer) JustConnect(ctx context.Context, req *ConnectRequest) (*ConnectReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method JustConnect not implemented")
-}
-
-func RegisterTestServer(s *grpc.Server, srv TestServer) {
-	s.RegisterService(&_Test_serviceDesc, srv)
-}
-
-func _Test_JustConnect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConnectRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(TestServer).JustConnect(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/gameServerTest.Test/JustConnect",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TestServer).JustConnect(ctx, req.(*ConnectRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-var _Test_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "gameServerTest.Test",
-	HandlerType: (*TestServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "JustConnect",
-			Handler:    _Test_JustConnect_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "gameservertest.proto",
+	0x17, 0xe2, 0x03, 0x89, 0x06, 0x83, 0x45, 0x43, 0x52, 0x8b, 0x4b, 0x94, 0xb8, 0xb8, 0x38, 0x7c,
+	0xf2, 0xd3, 0x33, 0xf3, 0x82, 0x52, 0x0b, 0x95, 0x54, 0xb9, 0x38, 0xa1, 0xec, 0xe2, 0x02, 0x21,
+	0x09, 0x2e, 0xf6, 0xd4, 0xa2, 0x22, 0xe7, 0xfc, 0x94, 0x54, 0x09, 0x46, 0x05, 0x46, 0x0d, 0xd6,
+	0x20, 0x18, 0x37, 0x89, 0x0d, 0x6c, 0x92, 0x31, 0x20, 0x00, 0x00, 0xff, 0xff, 0x23, 0xbd, 0xaf,
+	0x11, 0x61, 0x00, 0x00, 0x00,
 }

@@ -2,14 +2,10 @@ syntax = "proto3";
 
 package gameServerTest;
 
-service Test {
-    rpc JustConnect (ConnectRequest) returns (ConnectReply) {}
+message LoginReq {
+
 }
 
-message ConnectRequest {
-    string action = 1;
-}
-
-message ConnectReply {
-    string who = 1;
+message LoginResp {
+    int32 errCode = 1;
 }
