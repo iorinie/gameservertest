@@ -25,9 +25,18 @@ func TestConnectServer(t *testing.T) {
 		t.Errorf("CLIENT|marshal login data fail, err = %s\n", err)
 		return
 	}
-	t.Logf("CLIENT|marshal login data = %v", reqBytes)
+
+	msg := new(gameServerTest.Msg)
+	msg.Name = "Login"
+	msg.Content = string(reqBytes)
+	msgBytes, err := proto.Marshal(msg)
+	if err != nil {
+		t.Errorf("CLIENT|marshal msg data fail, err = %s\n", err)
+		return
+	}
+
 	head := &Head{
-		Len: uint16(len(reqBytes)),
+		Len: uint16(len(msgBytes)),
 	}
 	bf := new(bytes.Buffer)
 	err = binary.Write(bf, binary.BigEndian, head)
@@ -35,11 +44,10 @@ func TestConnectServer(t *testing.T) {
 		t.Errorf("CLIENT|build head data fail, err = %s\n", err)
 		return
 	}
-	bf.Write(reqBytes)
-	t.Logf("CLIENT|bf bytes = %v", bf.Bytes())
+	bf.Write(msgBytes)
 	_, err = conn.Write(bf.Bytes())
 	if err != nil {
-		t.Errorf("CLIENT|send login data to server fail, err = %s\n", err)
+		t.Errorf("CLIENT|send msg data to server fail, err = %s\n", err)
 		return
 	}
 }

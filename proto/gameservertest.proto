@@ -2,6 +2,11 @@ syntax = "proto3";
 
 package gameServerTest;
 
+message Msg {
+    string name = 1;
+    string content = 2;
+}
+
 message LoginReq {
     string name = 1;
 }

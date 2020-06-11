@@ -53,19 +53,31 @@ func handleCConn(conn net.Conn) {
 				fmt.Printf("SERVER|read body fail, err = %s\n", err)
 				return
 			}
-			loginReq := new(gameServerTest.LoginReq)
-			err = proto.Unmarshal(body, loginReq)
+			msg := new(gameServerTest.Msg)
+			err = proto.Unmarshal(body, msg)
 			if err != nil {
 				fmt.Printf("SERVER|unmarshal body fail, err = %s\n", err)
 				return
 			}
-			fmt.Printf("SERVER|body = %v\n", loginReq)
+			fmt.Printf("SERVER|body = %v\n", msg)
 
-			go handleRequest(conn, loginReq)
+			go handleRequest(conn, msg)
 		}
 	}
 }
 
-func handleRequest(conn net.Conn, req *gameServerTest.LoginReq) {
-
+func handleRequest(conn net.Conn, msg *gameServerTest.Msg) {
+	switch msg.Name {
+	case "Login" :
+		loginReq := new(gameServerTest.LoginReq)
+		err := proto.Unmarshal([]byte(msg.Content), loginReq)
+		if err != nil {
+			fmt.Printf("SERVER|unmarshal login content fail, err = %s\n", err)
+			break
+		}
+		fmt.Printf("SERVER|login info = %#v\n", loginReq)
+	default:
+		fmt.Printf("SERVER|handleRequest wrong msg type")
+		break
+	}
 }
