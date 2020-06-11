@@ -59,7 +59,7 @@ func handleCConn(conn net.Conn) {
 				fmt.Printf("SERVER|unmarshal body fail, err = %s\n", err)
 				return
 			}
-			fmt.Printf("SERVER|body = %v\n", msg)
+			fmt.Printf("SERVER|body = %#v\n", msg)
 
 			go handleRequest(conn, msg)
 		}
