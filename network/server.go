@@ -9,17 +9,8 @@ import (
 	"net"
 )
 
-type Msg struct {
-	Head Head
-	Body Body
-}
-
 type Head struct {
 	Len uint16
-}
-
-type Body struct {
-	Content []byte
 }
 
 func StartServer() {
@@ -48,7 +39,7 @@ func StartServer() {
 
 func handleCConn(conn net.Conn) {
 	for {
-		head := &Head{}
+		head := new(Head)
 		err := binary.Read(conn, binary.BigEndian, head)
 		if err != nil {
 			fmt.Printf("SERVER|read head fail, err = %s\n", err)
@@ -68,7 +59,13 @@ func handleCConn(conn net.Conn) {
 				fmt.Printf("SERVER|unmarshal body fail, err = %s\n", err)
 				return
 			}
-			fmt.Printf("SERVER|body = %v", loginReq)
+			fmt.Printf("SERVER|body = %v\n", loginReq)
+
+			go handleRequest(conn, loginReq)
 		}
 	}
+}
+
+func handleRequest(conn net.Conn, req *gameServerTest.LoginReq) {
+
 }

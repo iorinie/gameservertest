@@ -3,7 +3,7 @@ syntax = "proto3";
 package gameServerTest;
 
 message LoginReq {
-
+    string name = 1;
 }
 
 message LoginResp {

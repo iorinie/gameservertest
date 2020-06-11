@@ -1,9 +1,9 @@
 package network
 
 import (
-	"encoding/json"
-	"fmt"
-	gameServerTest "gameservertest/proto"
+	"bytes"
+	"encoding/binary"
+	"gameservertest/proto"
 	"github.com/golang/protobuf/proto"
 	"net"
 	"testing"
@@ -12,34 +12,34 @@ import (
 func TestConnectServer(t *testing.T) {
 	conn, err := net.Dial("tcp", ":10010")
 	if err != nil {
-		fmt.Printf("CLIENT|connect to server fail, err = %s\n", err)
+		t.Errorf("CLIENT|connect to server fail, err = %s\n", err)
 		return
 	}
 
 	defer conn.Close()
 
 	req := new(gameServerTest.LoginReq)
+	req.Name = "iorinie"
 	reqBytes, err := proto.Marshal(req)
 	if err != nil {
-		fmt.Printf("CLIENT|marshal login data fail, err = %s\n", err)
+		t.Errorf("CLIENT|marshal login data fail, err = %s\n", err)
 		return
 	}
-	head := Head{
+	t.Logf("CLIENT|marshal login data = %v", reqBytes)
+	head := &Head{
 		Len: uint16(len(reqBytes)),
 	}
-	headBytes, err := json.Marshal(head)
+	bf := new(bytes.Buffer)
+	err = binary.Write(bf, binary.BigEndian, head)
 	if err != nil {
-		fmt.Printf("CLIENT|marshal head fail, err = %s\n", err)
+		t.Errorf("CLIENT|build head data fail, err = %s\n", err)
 		return
 	}
-	_, err = conn.Write(headBytes)
+	bf.Write(reqBytes)
+	t.Logf("CLIENT|bf bytes = %v", bf.Bytes())
+	_, err = conn.Write(bf.Bytes())
 	if err != nil {
-		fmt.Printf("CLIENT|send head data to server fail, err = %s\n", err)
-		return
-	}
-	_, err = conn.Write(reqBytes)
-	if err != nil {
-		fmt.Printf("CLIENT|send login data to server fail, err = %s\n", err)
+		t.Errorf("CLIENT|send login data to server fail, err = %s\n", err)
 		return
 	}
 }
